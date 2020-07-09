@@ -1,24 +1,29 @@
 import logging
+from datetime import datetime
 
 import pyppeteer
 from pyppeteer import launch
 
 
 class pyShot(object):
-    def __init__(self, proxy=None):
+    def __init__(self, proxy=None, outputdir='.'):
         self.proxy = proxy
+        self.outputdir = outputdir
 
     async def capture_screenshot(self, browser: pyppeteer.browser, url: str):
         filename = url
         for r in (("://", "_"), ("/", "_"), (":", "_")):
             filename = filename.replace(*r)
 
+        timestamp = datetime.today().strftime('%Y_%m_%d_%H%M')
+        filename = filename + f"__{timestamp}"
+
         page = await browser.newPage()
 
         try:
             logging.info(f"[i] Capturing screenshot of {url}")
             await page.goto(url)
-            await page.screenshot({'path': f'{filename}.png'})
+            await page.screenshot({'path': f'{self.outputdir}/{filename}.png'})
         except Exception:
             logging.error(f"[!] Something went wrong when accessing {url}")
 
