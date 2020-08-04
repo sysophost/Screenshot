@@ -22,10 +22,11 @@ class pyShot(object):
 
         try:
             logging.info(f"[i] Capturing screenshot of {url}")
+            await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:79.0) Gecko/20100101 Firefox/79.0')
             await page.goto(url)
             await page.screenshot({'path': f'{self.outputdir}/{filename}.png'})
-        except Exception:
-            logging.error(f"[!] Something went wrong when accessing {url}")
+        except Exception as err:
+            logging.error(f"[!] Something went wrong when accessing {url} -- {err}")
 
     async def get_browser(self) -> pyppeteer.browser:
         browser_args = pyppeteer.defaultArgs()
