@@ -15,7 +15,7 @@ class pyShot(object):
         for r in (("://", "_"), ("/", "_"), (":", "_")):
             filename = filename.replace(*r)
 
-        timestamp = datetime.today().strftime('%Y_%m_%d_%H%M')
+        timestamp = datetime.today().strftime('%Y-%m-%d_%H-%M-%S')
         filename = filename + f"__{timestamp}"
 
         page = await browser.newPage()
